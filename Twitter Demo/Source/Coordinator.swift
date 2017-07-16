@@ -42,12 +42,13 @@ final class Coordinator {
         let tabBarController = UITabBarController()
         tabBarController.viewControllers = [
             UINavigationController(rootViewController: timelineViewController(repository: repository)),
+            UINavigationController(rootViewController: favouritesViewController(repository: repository)),
         ]
         return tabBarController
     }
     
     private func timelineViewController(repository: TwitterRepository) -> UIViewController {
-        let viewModel = TimelineViewModel(repository: repository)
+        let viewModel = HomeTimelineViewModel(repository: repository)
         viewModel.showUserProfile = { [weak self] userID in
             guard let `self` = self else {
                 return
@@ -66,6 +67,22 @@ final class Coordinator {
         let viewModel = ProfileViewModel(repository: repository, userID: userID)
         
         let viewController = R.storyboard.main.profileViewController()!
+        viewController.viewModel = viewModel
+        
+        return viewController
+    }
+    
+    private func favouritesViewController(repository: TwitterRepository) -> UIViewController {
+        let viewModel = FavouritesViewModel(repository: repository)
+        viewModel.showUserProfile = { [weak self] userID in
+            guard let `self` = self else {
+                return
+            }
+            let profileViewController = self.profileViewController(repository: repository, userID: userID)
+            self.push(profileViewController)
+        }
+        
+        let viewController = R.storyboard.main.timelineViewController()!
         viewController.viewModel = viewModel
         
         return viewController

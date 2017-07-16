@@ -11,28 +11,10 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-final class TimelineViewModel {
+protocol TimelineViewModel {
     
-    var showUserProfile: (String) -> Void = { _ in }
+    var windowTitleDriver: Driver<String> { get }
+    var tweetsDriver: Driver<[TweetCellViewModel]> { get }
     
-    private let repository: TwitterRepository
-    
-    let windowTitleDriver: Driver<String>
-    let tweetsDriver: Driver<[TweetCellViewModel]>
-    
-    init(repository: TwitterRepository) {
-        self.repository = repository
-        
-        windowTitleDriver = Driver.just("My Timeline")
-        
-        tweetsDriver = repository.retrieveTweets()
-            .map { tweets in
-                tweets.map { TweetCellViewModel(repository: repository, tweet: $0) }
-            }
-            .asDriver(onErrorJustReturn: [])
-    }
-    
-    func didSelectCellViewModel(_ cellViewModel: TweetCellViewModel) {
-        showUserProfile(cellViewModel.userID)
-    }
+    func didSelectCellViewModel(_ cellViewModel: TweetCellViewModel)
 }
