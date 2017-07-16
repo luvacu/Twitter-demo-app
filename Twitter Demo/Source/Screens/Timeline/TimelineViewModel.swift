@@ -27,7 +27,7 @@ final class TimelineViewModel {
         
         tweetsDriver = repository.retrieveTweets()
             .map { tweets in
-                tweets.map { TweetCellViewModel(tweet: $0) }
+                tweets.map { TweetCellViewModel(repository: repository, tweet: $0) }
             }
             .asDriver(onErrorJustReturn: [])
     }

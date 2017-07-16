@@ -13,11 +13,17 @@ import RxCocoa
 
 final class TweetCellViewModel {
     
-    static let dateFormatter: DateFormatter = {
+    private static let dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .long
         return dateFormatter
     }()
+    
+    private let disposeBag = DisposeBag()
+    
+    private let repository: TwitterRepository
+    private let tweet: TwitterRepository.Tweet
+    private let isFavourite: Variable<Bool>
     
     let userID: String
     
@@ -27,7 +33,10 @@ final class TweetCellViewModel {
     let tweetTextDriver: Driver<String>
     let isFavouriteDriver: Driver<Bool>
     
-    init(tweet: TwitterRepository.Tweet) {
+    init(repository: TwitterRepository, tweet: TwitterRepository.Tweet) {
+        self.repository = repository
+        self.tweet = tweet
+        isFavourite = Variable(tweet.isLiked)
         userID = tweet.author.userID
         
         avatarImageURLDriver = Driver.just(tweet.author.profileImageLargeURL)
@@ -37,10 +46,14 @@ final class TweetCellViewModel {
         dateTextDriver = Driver.just(dateFormatter.string(from: tweet.createdAt))
         
         tweetTextDriver = Driver.just(tweet.text)
-        isFavouriteDriver = Driver.just(tweet.isLiked)
+        isFavouriteDriver = isFavourite.asDriver()
     }
     
     func toggleFavourite() {
-        // TODO:
+        repository.markTweet(withID: tweet.tweetID, asFavourite: !isFavourite.value)
+            .asObservable()
+            .catchErrorJustReturn(isFavourite.value)
+            .bind(to: isFavourite)
+            .disposed(by: disposeBag)
     }
 }

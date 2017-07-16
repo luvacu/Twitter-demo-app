@@ -28,11 +28,11 @@ struct TwitterRepository {
         return networkProxy.retrieveTweets()
     }
     
-    func markTweet(withID tweetID: String, asFavourite favourite: Bool) -> Completable {
-        return networkProxy.markTweet(withID: tweetID, asFavourite: favourite)
-    }
-    
     func retrieveUser(withID userID: String) -> Single<User> {
         return networkProxy.retrieveUser(withID: userID)
+    }
+    
+    func markTweet(withID tweetID: String, asFavourite favourite: Bool) -> Single<Bool> {
+        return networkProxy.markTweet(withID: tweetID, asFavourite: favourite)
     }
 }
