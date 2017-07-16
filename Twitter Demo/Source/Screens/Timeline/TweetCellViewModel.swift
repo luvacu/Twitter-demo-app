@@ -19,6 +19,8 @@ final class TweetCellViewModel {
         return dateFormatter
     }()
     
+    let userID: String
+    
     let avatarImageURLDriver: Driver<String>
     let userNameTextDriver: Driver<String>
     let dateTextDriver: Driver<String>
@@ -26,6 +28,8 @@ final class TweetCellViewModel {
     let isFavouriteDriver: Driver<Bool>
     
     init(tweet: TwitterRepository.Tweet) {
+        userID = tweet.author.userID
+        
         avatarImageURLDriver = Driver.just(tweet.author.profileImageLargeURL)
         userNameTextDriver = Driver.just(tweet.author.formattedScreenName)
         

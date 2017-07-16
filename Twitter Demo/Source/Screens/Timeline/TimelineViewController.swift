@@ -43,7 +43,10 @@ final class TimelineViewController: UITableViewController, Binder {
             }
             .disposed(by: disposeBag)
         
-        
-//        viewModel.tweetsDriver.asObservable().bin
+        tableView.rx.modelSelected(TweetCellViewModel.self)
+            .subscribe(onNext: { cellViewModel in
+                viewModel.didSelectCellViewModel(cellViewModel)
+            })
+            .disposed(by: disposeBag)
     }
 }

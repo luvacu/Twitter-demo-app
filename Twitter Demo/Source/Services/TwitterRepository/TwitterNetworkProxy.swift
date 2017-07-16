@@ -23,6 +23,12 @@ struct TwitterNetworkProxy {
         }
     }
     
+    enum Error: Swift.Error {
+        
+        /// Retrieving user details from the server returned no user information
+        case didNotRetrieveUser(userID: String)
+    }
+    
     private let client: TWTRAPIClient
     
     init(client: TWTRAPIClient) {
@@ -31,7 +37,6 @@ struct TwitterNetworkProxy {
     
     func retrieveTweets() -> Observable<[TwitterRepository.Tweet]> {
         return Observable.create { observer -> Disposable in
-            
             let request: URLRequest
             do {
                 request = try self.urlRequestForHomeTimeline()
@@ -39,7 +44,6 @@ struct TwitterNetworkProxy {
                 observer.onError(error)
                 return Disposables.create()
             }
-            
             
             let progress = self.client.sendTwitterRequest(request) { (_, data, error) in
                 DispatchQueue.global(qos: .userInitiated).async {
@@ -56,22 +60,18 @@ struct TwitterNetworkProxy {
                     do {
                         let json = try JSONSerialization.jsonObject(with: data, options: [])
                         
-                        guard let jsonArray = json as? [Any] else {
+                        guard let jsonArray = json as? [Any],
+                            let tweets = TwitterRepository.Tweet.tweets(withJSONArray: jsonArray) as? [TwitterRepository.Tweet] else {
                             observer.onCompleted()
                             return
                         }
-                        
-                        let tweets = self.parseTweets(inJSONArray: jsonArray)
-                        
                         observer.onNext(tweets)
                         observer.onCompleted()
-                        
                     } catch {
                         observer.onError(error)
                     }
                 }
             }
-            
             return Disposables.create {
                 progress.cancel()
             }
@@ -82,8 +82,22 @@ struct TwitterNetworkProxy {
         return Completable.never()
     }
     
-    func retrieveUser(withID userID: String) -> Observable<TwitterRepository.User> {
-        return Observable.never()
+    func retrieveUser(withID userID: String) -> Single<TwitterRepository.User> {
+        return Single.create { single in
+            self.client.loadUser(withID: userID) { user, error in
+                guard error == nil else {
+                    single(.error(error!))
+                    return
+                }
+                
+                guard let user = user else {
+                    single(.error(Error.didNotRetrieveUser(userID: userID)))
+                    return
+                }
+                single(.success(user))                
+            }
+            return Disposables.create()
+        }
     }
     
     private func urlRequestForHomeTimeline() throws -> URLRequest {
@@ -92,7 +106,7 @@ struct TwitterNetworkProxy {
         let params: [AnyHashable : Any]? = nil
         var error: NSError?
         
-        let request = self.client.urlRequest(withMethod: method, url: url, parameters: params, error: &error)
+        let request = client.urlRequest(withMethod: method, url: url, parameters: params, error: &error)
         
         guard error == nil else {
             throw error!
@@ -101,14 +115,14 @@ struct TwitterNetworkProxy {
         return request
     }
     
-    private func parseTweets(inJSONArray jsonArray: [Any]) -> [TwitterRepository.Tweet] {
-        var tweets: [TwitterRepository.Tweet] = []
-        for jsonObject in jsonArray {
-            if let dictionary = jsonObject as? [AnyHashable : Any],
-                let tweet = TwitterRepository.Tweet(jsonDictionary: dictionary) {
-                tweets.append(tweet)
-            }
-        }
-        return tweets
-    }
+//    private func parseTweets(inJSONArray jsonArray: [Any]) -> [TwitterRepository.Tweet] {
+//        var tweets: [TwitterRepository.Tweet] = []
+//        for jsonObject in jsonArray {
+//            if let dictionary = jsonObject as? [AnyHashable : Any],
+//                let tweet = TwitterRepository.Tweet(jsonDictionary: dictionary) {
+//                tweets.append(tweet)
+//            }
+//        }
+//        return tweets
+//    }
 }

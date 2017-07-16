@@ -76,6 +76,7 @@
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nFP-O5-r4a">
                                             <rect key="frame" x="20" y="10" width="60" height="60"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="nFP-O5-r4a" secondAttribute="height" multiplier="1:1" id="6BB-xS-6g5"/>
                                                 <constraint firstAttribute="height" constant="60" id="VuE-SC-0MO"/>
@@ -149,6 +150,60 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nf-HM-XPU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1117.5999999999999" y="-205.54722638680661"/>
+        </scene>
+        <!--Profile View Controller-->
+        <scene sceneID="IiJ-Rr-6Gq">
+            <objects>
+                <viewController storyboardIdentifier="ProfileViewController" id="Lwd-Pu-bR5" customClass="ProfileViewController" customModule="Twitter_Demo" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ePl-eE-zAw"/>
+                        <viewControllerLayoutGuide type="bottom" id="Ww4-Y0-9Oi"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="etD-SN-j7Y">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="22" translatesAutoresizingMaskIntoConstraints="NO" id="jOe-eK-hQ2">
+                                <rect key="frame" x="112" y="60" width="150" height="254"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ci3-Ul-zEv">
+                                        <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="150" id="Xgb-aU-a55"/>
+                                            <constraint firstAttribute="width" secondItem="ci3-Ul-zEv" secondAttribute="height" multiplier="1:1" id="qKc-dw-kzb"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mj8-vk-JkL">
+                                        <rect key="frame" x="42" y="172" width="66.5" height="33.5"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s5a-f1-muU">
+                                        <rect key="frame" x="48" y="227.5" width="54" height="26.5"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="jOe-eK-hQ2" firstAttribute="centerX" secondItem="etD-SN-j7Y" secondAttribute="centerX" id="ioc-J0-gqg"/>
+                            <constraint firstItem="jOe-eK-hQ2" firstAttribute="top" secondItem="ePl-eE-zAw" secondAttribute="bottom" constant="40" id="u7S-EC-kXM"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="avatarImageView" destination="ci3-Ul-zEv" id="VPX-jk-WMR"/>
+                        <outlet property="nameLabel" destination="mj8-vk-JkL" id="dI5-nU-obI"/>
+                        <outlet property="userNameLabel" destination="s5a-f1-muU" id="v3t-Hx-sGi"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5wy-U2-uTY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1905" y="-206"/>
         </scene>
     </scenes>
     <resources>

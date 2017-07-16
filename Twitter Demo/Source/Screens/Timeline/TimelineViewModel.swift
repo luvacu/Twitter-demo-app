@@ -13,6 +13,8 @@ import RxCocoa
 
 final class TimelineViewModel {
     
+    var showUserProfile: (String) -> Void = { _ in }
+    
     private let repository: TwitterRepository
     
     let windowTitleDriver: Driver<String>
@@ -28,5 +30,9 @@ final class TimelineViewModel {
                 tweets.map { TweetCellViewModel(tweet: $0) }
             }
             .asDriver(onErrorJustReturn: [])
+    }
+    
+    func didSelectCellViewModel(_ cellViewModel: TweetCellViewModel) {
+        showUserProfile(cellViewModel.userID)
     }
 }

@@ -32,7 +32,7 @@ struct TwitterRepository {
         return networkProxy.markTweet(withID: tweetID, asFavourite: favourite)
     }
     
-    func retrieveUser(withID userID: String) -> Observable<User> {
+    func retrieveUser(withID userID: String) -> Single<User> {
         return networkProxy.retrieveUser(withID: userID)
     }
 }
