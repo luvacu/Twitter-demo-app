@@ -17,22 +17,40 @@ struct TwitterRepository {
     typealias Tweet = TWTRTweet
     
     private let networkProxy: TwitterNetworkProxy
+    private let database: TwitterDatabase
     
     init(userID: String) {
         let client = TWTRAPIClient(userID: userID)
         networkProxy = TwitterNetworkProxy(client: client)
+        database = TwitterDatabase()
     }
     
     func retrieveTweets(favouritesOnly: Bool = false) -> Observable<[Tweet]> {
-        // TODO: if favouritesOnly == true, retrieve them from database instead
-        return networkProxy.retrieveTweets()
+        if favouritesOnly {
+            return database.tweets
+        } else {
+            return networkProxy.retrieveTweets()
+        }
     }
     
     func retrieveUser(withID userID: String) -> Single<User> {
         return networkProxy.retrieveUser(withID: userID)
     }
     
-    func markTweet(withID tweetID: String, asFavourite favourite: Bool) -> Single<Bool> {
-        return networkProxy.markTweet(withID: tweetID, asFavourite: favourite)
+    func markTweet(_ tweet: Tweet, asFavourite favourite: Bool) -> Single<Bool> {
+        return networkProxy.markTweet(withID: tweet.tweetID, asFavourite: favourite)
+            .flatMap { isFavourite in
+                
+                let databaseCompletable: Completable
+                if isFavourite {
+                    databaseCompletable = self.database.save(tweet: tweet.withLikeToggled())
+                } else {
+                    databaseCompletable = self.database.delete(tweetWithID: tweet.tweetID)
+                }
+                
+                return databaseCompletable
+                    .then(Observable.just(isFavourite))
+                    .asSingle()
+            }
     }
 }

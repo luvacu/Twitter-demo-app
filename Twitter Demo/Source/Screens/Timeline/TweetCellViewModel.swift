@@ -50,7 +50,7 @@ final class TweetCellViewModel {
     }
     
     func toggleFavourite() {
-        repository.markTweet(withID: tweet.tweetID, asFavourite: !isFavourite.value)
+        repository.markTweet(tweet, asFavourite: !isFavourite.value)
             .asObservable()
             .catchErrorJustReturn(isFavourite.value)
             .bind(to: isFavourite)
