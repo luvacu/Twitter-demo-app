@@ -6,6 +6,7 @@ target 'Twitter Demo' do
   pod 'TwitterKit', '~> 3.0.0'
   pod 'RxSwift', '~> 3.5.0'
   pod 'RxCocoa', '~> 3.5.0'
+  pod 'R.swift', '~> 3.3.0'
 
   target 'Twitter DemoTests' do
     inherit! :search_paths

@@ -29,3 +29,6 @@ xcuserdata/
 ## Playgrounds
 timeline.xctimeline
 playground.xcworkspace
+
+## R.swift
+*.generated.swift
