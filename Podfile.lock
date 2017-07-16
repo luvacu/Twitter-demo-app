@@ -1,4 +1,5 @@
 PODS:
+  - Kingfisher (3.10.3)
   - R.swift (3.3.0):
     - R.swift.Library (~> 3.0.2)
   - R.swift.Library (3.0.2)
@@ -10,12 +11,14 @@ PODS:
     - TwitterCore (>= 3.0.0)
 
 DEPENDENCIES:
+  - Kingfisher (~> 3.10.0)
   - R.swift (~> 3.3.0)
   - RxCocoa (~> 3.5.0)
   - RxSwift (~> 3.5.0)
   - TwitterKit (~> 3.0.0)
 
 SPEC CHECKSUMS:
+  Kingfisher: a0ac82dc5bcf0388dd74b294cf2cc13730c63436
   R.swift: bde9704d50ff36820f49e266bc88ef545e1e9b36
   R.swift.Library: fbdec16c9802ad104fc1ba53415dc190e6ec5c73
   RxCocoa: a0a09f45d0e5b48ecb6a4a7b4b4c89c88d3f633f
@@ -23,6 +26,6 @@ SPEC CHECKSUMS:
   TwitterCore: 8ce250be1eb34633a0e6acc89520d4165ec52c10
   TwitterKit: 202404be71aadd81d19f677b34579fe77d9cb67e
 
-PODFILE CHECKSUM: dc8a2b0a6f532cac5e1fd356fbe0ff9d04459e17
+PODFILE CHECKSUM: efb9b08cdc2db9bec2c57950482d85aaabe2b46f
 
 COCOAPODS: 1.2.1

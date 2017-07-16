@@ -5,6 +5,7 @@ Twitter demo app for iPhone (iOS 10+).
 - [TwitterKit](https://dev.twitter.com/twitterkit/overview)
 - [RxSwift + RxCocoa](https://github.com/ReactiveX/RxSwift)
 - [R.swift](https://github.com/mac-cain13/R.swift)
+- [Kingfisher](https://github.com/onevcat/Kingfisher)
 
 ## Author
 Luis Valdés Cuesta
