@@ -1,6 +1,18 @@
 # Twitter demo app
 Twitter demo app for iPhone (iOS 10+).
 
+## Usage
+- Clone the repo.
+- Paste your own Twitter application key and secret in `AppDelegate` to initialise the `TwitterService`:
+```
+twitterService = TwitterService(withConsumerKey: "YourConsumerKey", consumerSecret: "YourConsumerSecret")
+```
+- Paste your own Twitter application key in the `Info.plist` file, under `URL types > URL Schemes`:
+```
+twitterkit-YourConsumerKey
+```
+- Open the workspace file `Twitter Demo.xcworkspace` and run the app.
+
 ## Tools/Libraries/SDKs used
 - [TwitterKit](https://dev.twitter.com/twitterkit/overview)
 - [RxSwift + RxCocoa](https://github.com/ReactiveX/RxSwift)
