@@ -27,7 +27,7 @@ struct TwitterRepository {
     
     func retrieveTweets(favouritesOnly: Bool = false) -> Observable<[Tweet]> {
         if favouritesOnly {
-            return database.tweets
+            return database.tweets.asObservable()
         } else {
             return networkProxy.retrieveTweets()
         }

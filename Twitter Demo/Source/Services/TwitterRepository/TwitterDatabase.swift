@@ -36,29 +36,23 @@ final class TwitterDatabase {
         set {
             database.set(newValue, forKey: Keys.tweets)
             database.synchronize()
+            
+            let tweetsArray = newValue.flatMap { (_, data) in
+                TweetBuilder.tweetFrom(data)
+            }
+            tweets.value = tweetsArray
         }
     }
     
+    private(set) lazy var tweets: Variable<[TwitterRepository.Tweet]> = { [unowned self] in
+        let tweetsArray = self.tweetsDictionary.flatMap { (_, data) in
+            TweetBuilder.tweetFrom(data)
+        }
+        return Variable(tweetsArray)
+    }()
+    
     init() {
         database = UserDefaults.standard
-    }
-    
-    var tweets: Observable<[TwitterRepository.Tweet]> {
-        return Observable.create { [weak self] observer -> Disposable in
-            guard let `self` = self else {
-                observer.onError(Error.databaseReferenceNoLongerExists)
-                return Disposables.create()
-            }
-            
-            let tweets = self.tweetsDictionary.flatMap { (_, data) in
-                TweetBuilder.tweetFrom(data)
-            }
-            
-            observer.onNext(tweets)
-            observer.onCompleted()
-            
-            return Disposables.create()
-        }.subscribeOn(ConcurrentDispatchQueueScheduler(qos: .userInitiated))
     }
     
     func save(tweet: TwitterRepository.Tweet) -> Completable {
