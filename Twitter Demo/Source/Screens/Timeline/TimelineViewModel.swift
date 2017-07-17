@@ -11,9 +11,12 @@ import Foundation
 import RxSwift
 import RxCocoa
 
+import Rswift
+
 protocol TimelineViewModel {
     
     var windowTitleDriver: Driver<String> { get }
+    var windowIconDriver: Driver<Rswift.ImageResource> { get }
     var tweetsDriver: Driver<[TweetCellViewModel]> { get }
     
     func didSelectCellViewModel(_ cellViewModel: TweetCellViewModel)

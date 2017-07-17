@@ -15,7 +15,24 @@ final class TimelineViewController: UITableViewController, Binder {
     
     let disposeBag = DisposeBag()
     
-    var viewModel: TimelineViewModel!
+    var viewModel: TimelineViewModel! {
+        didSet {
+            guard let viewModel = viewModel else {
+                return
+            }
+            viewModel.windowTitleDriver
+                .drive(onNext: { [unowned self] title in
+                    self.title = title
+                })
+                .disposed(by: disposeBag)
+            
+            viewModel.windowIconDriver
+                .drive(onNext: { [unowned self] imageResource in
+                    self.tabBarItem.image = UIImage(resource: imageResource)
+                })
+                .disposed(by: disposeBag)
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,11 +44,6 @@ final class TimelineViewController: UITableViewController, Binder {
     }
     
     private func addBinds(to viewModel: TimelineViewModel) {
-        viewModel.windowTitleDriver
-            .drive(onNext: { [unowned self] title in
-                self.title = title
-            })
-            .disposed(by: disposeBag)
         
         tableView.delegate = nil
         tableView.dataSource = nil

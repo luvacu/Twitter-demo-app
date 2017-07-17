@@ -11,6 +11,8 @@ import Foundation
 import RxSwift
 import RxCocoa
 
+import Rswift
+
 final class FavouritesViewModel: TimelineViewModel {
     
     var showUserProfile: (String) -> Void = { _ in }
@@ -18,12 +20,14 @@ final class FavouritesViewModel: TimelineViewModel {
     private let repository: TwitterRepository
     
     let windowTitleDriver: Driver<String>
+    let windowIconDriver: Driver<Rswift.ImageResource>
     let tweetsDriver: Driver<[TweetCellViewModel]>
     
     init(repository: TwitterRepository) {
         self.repository = repository
         
         windowTitleDriver = Driver.just("Favourites")
+        windowIconDriver = Driver.just(R.image.heartFilledIcon)
         
         tweetsDriver = repository.retrieveTweets(favouritesOnly: true)
             .map { tweets in
