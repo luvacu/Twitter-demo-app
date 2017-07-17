@@ -1,6 +1,10 @@
 # Twitter demo app
 Twitter demo app for iPhone (iOS 10+).
 
+![screenshot_1](https://raw.githubusercontent.com/luvacu/Twitter-demo-app/master/screenshots/Screenshot-1.png)
+![screenshot_2](https://raw.githubusercontent.com/luvacu/Twitter-demo-app/master/screenshots/Screenshot-2.png)
+![screenshot_2](https://raw.githubusercontent.com/luvacu/Twitter-demo-app/master/screenshots/Screenshot-3.png)
+
 ## Usage
 - Clone the repo.
 - Paste your own Twitter application key and secret in `AppDelegate` to initialise the `TwitterService`:
